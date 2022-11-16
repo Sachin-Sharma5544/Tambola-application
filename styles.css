@@ -9,15 +9,17 @@
 
 /* Body Styling */
 body {
-    background-color: rgb(0,104,71);
+    /* background-color: rgb(0,104,71); */
+    background-color: rgb(0, 104, 71);
     font-family: 'Roboto', sans-serif;
-    color: white;
+    color: rgb(226, 209, 249);;
 }
 
 /* Navbar elements styling */
 
 .hz-line {
-    border-bottom: 3px solid rgb(0, 68, 46);
+    /* border-bottom: 3px solid rgb(0, 68, 46); */
+    border-bottom: 2px solid white
 }
 
 .nav-ele-wrapper {
@@ -32,6 +34,27 @@ body {
     justify-content: space-between;
     padding: 10px 20px;
 }
+
+.header-center h1{
+    font-size: 28px;
+}
+
+ .my-number-display {
+    border: 6px double rgb(229, 172, 2);
+    font-size: 8vw; 
+    margin: 50px 0px;
+    text-align: center;
+    border-radius: 8px;
+    /* color: rgba(194, 2, 57,0.7); */
+    color:rgb(226, 209, 249);
+
+}
+
+.my-current-num {
+   padding-right: 3px;
+}
+
+
 
 
 
