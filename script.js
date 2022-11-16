@@ -1,12 +1,30 @@
-let numDisplay = document.querySelector(".my-current-num");
+const numDisplay = document.querySelector(".my-current-num");
+const myCalledNums = document.querySelector(".my-called-nums");
+const startBtn = document.querySelector(".tambola-start-btn");
+const resetBtn = document.querySelector(".tambola-reset-btn");
+let calledNum = [];
 
-let id = setInterval(
-    function () {
-        numDisplay.textContent = Math.round(Math.random() * 100);
-    },
-    1000,
-    setTimeout(function () {
-        numDisplay.textContent = "End";
-        clearInterval(id);
-    }, 20000)
-);
+startBtn.addEventListener("click", function () {
+    let id = setInterval(function () {
+        let genNum = Math.round(Math.random() * 99);
+        if (!calledNum.includes(genNum)) {
+            calledNum.push(genNum);
+            numDisplay.textContent = genNum;
+            let spanEle = document.createElement("span");
+            spanEle.textContent = genNum;
+            spanEle.classList.add("my-num");
+            myCalledNums.appendChild(spanEle);
+
+            if (calledNum.length == 100) {
+                numDisplay.textContent = "End";
+                console.log(calledNum);
+                clearInterval(id);
+            }
+        }
+    }, 10);
+});
+
+resetBtn.addEventListener("click", function () {
+    myCalledNums.innerHTML = "";
+    calledNum = [];
+});
