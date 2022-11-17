@@ -2,29 +2,58 @@ const numDisplay = document.querySelector(".my-current-num");
 const myCalledNums = document.querySelector(".my-called-nums");
 const startBtn = document.querySelector(".tambola-start-btn");
 const resetBtn = document.querySelector(".tambola-reset-btn");
-let calledNum = [];
+const tambolaLength = 100;
+const intTime = 1;
+let tmblaSeqArr = generateTambolaSeq(tambolaLength);
+let count = resetCount(0);
+
+function resetCount(zero) {
+    let cnt = zero;
+    return cnt;
+}
+
+function generateTambolaSeq(n) {
+    let seqArray = [];
+    for (let i = 0; i < n; i++) {
+        seqArray.push(i);
+    }
+
+    function randomArraySeq(seqArray) {
+        let randomArr = [];
+        let index, spliceVal;
+        for (let i = 0; i < n; i++) {
+            index = Math.round(Math.random() * (seqArray.length - 1));
+            spliceVal = seqArray.splice(index, 1)[0];
+            randomArr.push(spliceVal);
+        }
+
+        return randomArr;
+    }
+    return randomArraySeq(seqArray);
+}
 
 startBtn.addEventListener("click", function () {
-    let id = setInterval(function () {
-        let genNum = Math.round(Math.random() * 99);
-        if (!calledNum.includes(genNum)) {
-            calledNum.push(genNum);
-            numDisplay.textContent = genNum;
-            let spanEle = document.createElement("span");
-            spanEle.textContent = genNum;
-            spanEle.classList.add("my-num");
-            myCalledNums.appendChild(spanEle);
-
-            if (calledNum.length == 100) {
-                numDisplay.textContent = "End";
-                console.log(calledNum);
+    // let count = 0;
+    if (count <= 0) {
+        let id = setInterval(function () {
+            if (count == tmblaSeqArr.length) {
+                numDisplay.textContent = "Over";
                 clearInterval(id);
+            } else {
+                numDisplay.textContent = tmblaSeqArr[count];
+                let spanEle = document.createElement("span");
+                spanEle.textContent = tmblaSeqArr[count];
+                spanEle.classList.add("my-num");
+                myCalledNums.appendChild(spanEle);
+                count++;
             }
-        }
-    }, 10);
+        }, intTime);
+    }
 });
 
 resetBtn.addEventListener("click", function () {
+    count = resetCount(0);
     myCalledNums.innerHTML = "";
-    calledNum = [];
+    numDisplay.textContent = "Play";
+    tmblaSeqArr = generateTambolaSeq(tambolaLength);
 });
