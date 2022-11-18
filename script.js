@@ -11,6 +11,19 @@ const playerTwo = document.querySelector(".player-2 .player-card-nums");
 const playerOneBtns = document.querySelector(".player-1 .player-buttons");
 const playerTwoBtns = document.querySelector(".player-2 .player-buttons");
 
+// Player related declarations
+const firstRowBtn = "Row 1";
+const secondRowBtn = "Row 2";
+const ThirdRowBtn = "Row 3";
+const FullHouseBtn = "Full House";
+const playerCardRowLength = 5;
+const firstRowStart = 0;
+const firstRowEnd = 5;
+const secondRowStart = 5;
+const secondRowEnd = 10;
+const ThirdRowStart = 10;
+const ThirdRowEnd = 15;
+
 //Variable Declarations
 let tmblaSeqArr, playerOneArr, playerTwoArr;
 let calledNums = [];
@@ -19,7 +32,7 @@ let id; // for clearing the setInterval
 
 //Variable initilizations
 const tambolaBoardLength = 100;
-const intTime = 1000;
+const intTime = 500;
 const playerCardLength = 15;
 
 //generate tambola seq array
@@ -38,6 +51,7 @@ function setCount(zero) {
     return cnt;
 }
 
+//for generating Random Array for Tabmola board
 function generateRandomArray(n) {
     let seqArray = [];
     for (let i = 0; i < n; i++) {
@@ -58,6 +72,7 @@ function generateRandomArray(n) {
     return randomArraySeq(seqArray);
 }
 
+//generates player Array
 function generatePlayerArray(randomArr) {
     let playerArr = [];
     let index, spliceVal;
@@ -78,31 +93,72 @@ function createPlayerCard(player, playerArray) {
     }
 }
 
-//Event Listeners on page Starts
-
-//Start Button Event Listner
-startBtn.addEventListener("click", function () {
-    // let count = 0;
-    if (count <= 0) {
-        id = setInterval(function () {
-            if (count == tmblaSeqArr.length) {
-                numDisplay.textContent = "Over";
-                clearInterval(id);
-            } else {
-                numDisplay.textContent = tmblaSeqArr[count];
-                let spanEle = document.createElement("span");
-                spanEle.textContent = tmblaSeqArr[count];
-                spanEle.classList.add("my-num");
-                myCalledNums.appendChild(spanEle);
-                calledNums.push(tmblaSeqArr[count]);
-                count++;
+function checkClaims(player, button, playerArrry) {
+    if (button == firstRowBtn) {
+        for (let i = firstRowStart; i < firstRowEnd; i++) {
+            if (calledNums.includes(playerArrry[i])) {
+                player.children[i].classList.add("card-called-num");
             }
-        }, intTime);
+        }
+    } else if (button == secondRowBtn) {
+        for (let i = secondRowStart; i < secondRowEnd; i++) {
+            if (calledNums.includes(playerOneArr[i])) {
+                player.children[i].classList.add("card-called-num");
+            }
+        }
+    } else if (button == ThirdRowBtn) {
+        for (let i = ThirdRowStart; i < ThirdRowEnd; i++) {
+            if (calledNums.includes(playerOneArr[i])) {
+                player.children[i].classList.add("card-called-num");
+            }
+        }
+    } else if (button == FullHouseBtn) {
+        for (let i = firstRowStart; i < ThirdRowEnd; i++) {
+            if (calledNums.includes(playerOneArr[i])) {
+                player.children[i].classList.add("card-called-num");
+            }
+        }
     }
-});
+}
 
-//Reset Button Event Listner
-resetBtn.addEventListener("click", function () {
+//startBtn click events
+// function callStartBtnEvents() {
+//     if (count <= 0) {
+//         id = setInterval(function () {
+//             if (count == tmblaSeqArr.length) {
+//                 numDisplay.textContent = "Over";
+//                 clearInterval(id);
+//             } else {
+//                 numDisplay.textContent = tmblaSeqArr[count];
+//                 let spanEle = document.createElement("span");
+//                 spanEle.textContent = tmblaSeqArr[count];
+//                 spanEle.classList.add("my-num");
+//                 myCalledNums.appendChild(spanEle);
+//                 calledNums.push(tmblaSeqArr[count]);
+//                 count++;
+//             }
+//         }, intTime);
+//     }
+// }
+
+//Modified Method
+function callStartBtnEvents() {
+    if (count == tmblaSeqArr.length) {
+        numDisplay.textContent = "Over";
+        clearInterval(id);
+    } else {
+        numDisplay.textContent = tmblaSeqArr[count];
+        let spanEle = document.createElement("span");
+        spanEle.textContent = tmblaSeqArr[count];
+        spanEle.classList.add("my-num");
+        myCalledNums.appendChild(spanEle);
+        calledNums.push(tmblaSeqArr[count]);
+        count++;
+    }
+}
+
+//Reset Button click events
+function callResetBtnEvents() {
     clearInterval(id);
     count = setCount(0);
     myCalledNums.innerHTML = "";
@@ -115,25 +171,39 @@ resetBtn.addEventListener("click", function () {
     playerTwoArr = generatePlayerArray(tmblaSeqArr);
     createPlayerCard(playerOne, playerOneArr);
     createPlayerCard(playerTwo, playerTwoArr);
+}
+
+//Event Listeners on page Starts
+
+//Start Button Event Listner
+// startBtn.addEventListener("click", function () {
+//     callStartBtnEvents();
+// });
+
+startBtn.addEventListener("click", function () {
+    if (count <= 0) {
+        id = setInterval(function () {
+            callStartBtnEvents();
+        }, intTime);
+    }
+});
+
+//Reset Button Event Listner
+resetBtn.addEventListener("click", function () {
+    callResetBtnEvents();
 });
 
 //Player 1 buttons
 playerOneBtns.addEventListener("click", function (e) {
-    if (e.target.innerHTML == "First Row") {
-        for (let i = 0; i < 5; i++) {
-            if (calledNums.includes(playerOneArr[i])) {
-                console.log(
-                    "it includes",
-                    calledNums.indexOf(playerOneArr[i]) + 1,
-                    playerOneArr[i]
-                );
-            }
-        }
-    }
+    //check Rows function (Player, button)
+    let buttonClicked = e.target.innerHTML;
+
+    checkClaims(playerOne, buttonClicked, playerOneArr);
 });
 
-playerTwoBtns.addEventListener("click", function () {
-    console.log("player 2 ka button daab diya");
+playerTwoBtns.addEventListener("click", function (e) {
+    let buttonClicked = e.target.innerHTML;
+    checkClaims(playerTwo, buttonClicked, playerTwoArr);
 });
 
 //Event Listeners on page ends
