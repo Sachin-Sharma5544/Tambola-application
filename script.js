@@ -16,13 +16,12 @@ const firstRowBtn = "Row 1";
 const secondRowBtn = "Row 2";
 const ThirdRowBtn = "Row 3";
 const FullHouseBtn = "Full House";
-const playerCardRowLength = 5;
-const firstRowStart = 0;
-const firstRowEnd = 5;
-const secondRowStart = 5;
-const secondRowEnd = 10;
-const ThirdRowStart = 10;
-const ThirdRowEnd = 15;
+const playerRowLength = 5;
+// const firstRowEnd = playerCardRowLength;
+// const secondRowStart = playerCardRowLength;
+// const secondRowEnd = 2 * playerCardRowLength;
+// const ThirdRowStart = 2 * playerCardRowLength;
+// const ThirdRowEnd = 3 * playerCardRowLength;
 
 //Variable Declarations
 let tmblaSeqArr, playerOneArr, playerTwoArr;
@@ -95,25 +94,25 @@ function createPlayerCard(player, playerArray) {
 
 function checkClaims(player, button, playerArrry) {
     if (button == firstRowBtn) {
-        for (let i = firstRowStart; i < firstRowEnd; i++) {
+        for (let i = 0; i < playerRowLength; i++) {
             if (calledNums.includes(playerArrry[i])) {
                 player.children[i].classList.add("card-called-num");
             }
         }
     } else if (button == secondRowBtn) {
-        for (let i = secondRowStart; i < secondRowEnd; i++) {
+        for (let i = playerRowLength; i < 2 * playerRowLength; i++) {
             if (calledNums.includes(playerOneArr[i])) {
                 player.children[i].classList.add("card-called-num");
             }
         }
     } else if (button == ThirdRowBtn) {
-        for (let i = ThirdRowStart; i < ThirdRowEnd; i++) {
+        for (let i = 2 * playerRowLength; i < 3 * playerRowLength; i++) {
             if (calledNums.includes(playerOneArr[i])) {
                 player.children[i].classList.add("card-called-num");
             }
         }
     } else if (button == FullHouseBtn) {
-        for (let i = firstRowStart; i < ThirdRowEnd; i++) {
+        for (let i = 0; i < playerRowLength; i++) {
             if (calledNums.includes(playerOneArr[i])) {
                 player.children[i].classList.add("card-called-num");
             }
