@@ -14,8 +14,8 @@ const playerTwoBtns = document.querySelector(".player-2 .player-buttons");
 // Player related declarations
 const firstRowBtn = "Row 1";
 const secondRowBtn = "Row 2";
-const ThirdRowBtn = "Row 3";
-const FullHouseBtn = "Full House";
+const thirdRowBtn = "Row 3";
+const fullHouseBtn = "Full House";
 const playerRowLength = 5;
 // const firstRowEnd = playerCardRowLength;
 // const secondRowStart = playerCardRowLength;
@@ -105,14 +105,14 @@ function checkClaims(player, button, playerArrry) {
                 player.children[i].classList.add("card-called-num");
             }
         }
-    } else if (button == ThirdRowBtn) {
+    } else if (button == thirdRowBtn) {
         for (let i = 2 * playerRowLength; i < 3 * playerRowLength; i++) {
             if (calledNums.includes(playerOneArr[i])) {
                 player.children[i].classList.add("card-called-num");
             }
         }
-    } else if (button == FullHouseBtn) {
-        for (let i = 0; i < playerRowLength; i++) {
+    } else if (button == fullHouseBtn) {
+        for (let i = 0; i < 3 * playerRowLength; i++) {
             if (calledNums.includes(playerOneArr[i])) {
                 player.children[i].classList.add("card-called-num");
             }
