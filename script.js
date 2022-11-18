@@ -92,30 +92,70 @@ function createPlayerCard(player, playerArray) {
     }
 }
 
+function setInitialValue(rowVal) {
+    let initialVal;
+    if (rowVal == firstRowBtn) {
+        initialVal = 0;
+    } else if (rowVal == secondRowBtn) {
+        initialVal = playerRowLength;
+    } else if (rowVal == thirdRowBtn) {
+        initialVal = 2 * playerRowLength;
+    } else if (rowVal == fullHouseBtn) {
+        initialVal = 0;
+    }
+
+    return initialVal;
+}
+
+function setFinalValue(rowVal) {
+    let finalVal;
+    if (rowVal == firstRowBtn) {
+        finalVal = playerRowLength;
+    } else if (rowVal == secondRowBtn) {
+        finalVal = 2 * playerRowLength;
+    } else if (rowVal == thirdRowBtn) {
+        finalVal = 3 * playerRowLength;
+    } else if (rowVal == fullHouseBtn) {
+        finalVal = 3 * playerRowLength;
+    }
+
+    return finalVal;
+}
+
+function checkRowDone(player, playerVal, rowVal) {
+    let rowCountFlag = 0;
+    let msg = "";
+    let initialVal = setInitialValue(rowVal);
+    let finalVal = setFinalValue(rowVal);
+
+    for (let i = initialVal; i < finalVal; i++) {
+        if (player.children[i].classList.contains("card-called-num")) {
+            rowCountFlag++;
+        }
+    }
+
+    if (rowVal != fullHouseBtn) {
+        msg =
+            rowCountFlag == 5
+                ? `${rowVal} is done for ${playerVal}`
+                : `${rowVal} is not done for ${playerVal}`;
+    } else {
+        msg =
+            rowCountFlag == 15
+                ? `${rowVal} is done for ${playerVal}`
+                : `${rowVal} is not done for ${playerVal}`;
+    }
+
+    alert(msg);
+}
+
 function checkClaims(player, button, playerArrry) {
-    if (button == firstRowBtn) {
-        for (let i = 0; i < playerRowLength; i++) {
-            if (calledNums.includes(playerArrry[i])) {
-                player.children[i].classList.add("card-called-num");
-            }
-        }
-    } else if (button == secondRowBtn) {
-        for (let i = playerRowLength; i < 2 * playerRowLength; i++) {
-            if (calledNums.includes(playerOneArr[i])) {
-                player.children[i].classList.add("card-called-num");
-            }
-        }
-    } else if (button == thirdRowBtn) {
-        for (let i = 2 * playerRowLength; i < 3 * playerRowLength; i++) {
-            if (calledNums.includes(playerOneArr[i])) {
-                player.children[i].classList.add("card-called-num");
-            }
-        }
-    } else if (button == fullHouseBtn) {
-        for (let i = 0; i < 3 * playerRowLength; i++) {
-            if (calledNums.includes(playerOneArr[i])) {
-                player.children[i].classList.add("card-called-num");
-            }
+    let initialVal = setInitialValue(button);
+    let finalVal = setFinalValue(button);
+
+    for (let i = initialVal; i < finalVal; i++) {
+        if (calledNums.includes(playerArrry[i])) {
+            player.children[i].classList.add("card-called-num");
         }
     }
 }
@@ -196,13 +236,23 @@ resetBtn.addEventListener("click", function () {
 playerOneBtns.addEventListener("click", function (e) {
     //check Rows function (Player, button)
     let buttonClicked = e.target.innerHTML;
-
+    let rowVal = e.target.innerHTML;
+    let playerVal = "Player 1";
     checkClaims(playerOne, buttonClicked, playerOneArr);
+    setTimeout(function () {
+        checkRowDone(playerOne, playerVal, rowVal);
+    }, 300);
 });
 
 playerTwoBtns.addEventListener("click", function (e) {
     let buttonClicked = e.target.innerHTML;
+    let rowVal = e.target.innerHTML;
+    let playerVal = "Player 2";
+
     checkClaims(playerTwo, buttonClicked, playerTwoArr);
+    setTimeout(function () {
+        checkRowDone(playerTwo, playerVal, rowVal);
+    }, 300);
 });
 
 //Event Listeners on page ends

@@ -129,7 +129,7 @@ body {
 }
 
 .player-buttons button {
-    padding: 0.8vw 1.5vw;
+    padding: 0.8vw 1vw;
     border-radius: 1vw;
     border: 0.2vw solid rgb(229, 172, 2);
     background-color: rgb(186, 166, 235);
@@ -137,7 +137,7 @@ body {
 }
 
 .player-buttons button:active {
-    padding: 0.8vw 1.5vw;
+    padding: 0.8vw 1vw;
     border-radius: 1vw;
     border: 2px solid rgb(229, 172, 2);
     background-color: rgb(84, 75, 106);
